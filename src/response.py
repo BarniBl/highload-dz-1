@@ -79,7 +79,7 @@ class HttpResponse:
         if self.request_path.find('../') != -1:
             return self.response_with_error(404)
 
-        if self.request_path[len(self.request_path) - 1] == '/':
+        if self.request_path[-1] == '/':
             file_path = self.document_root + self.request_path + INDEX
             if not (os.path.isfile(file_path)):
                 return self.response_with_error(403)
