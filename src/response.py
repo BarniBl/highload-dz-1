@@ -69,7 +69,7 @@ class HttpResponse:
         if request_first_line[0] not in [GET, HEAD]:
             return self.response_with_error(405)
 
-        self.request_path = parse.unquote(request_first_line[1])
+        self.request_path = parse.urlparse(parse.unquote(request_first_line[1])).path
 
         return request_first_line[0]
 
