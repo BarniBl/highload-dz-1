@@ -67,7 +67,7 @@ class HttpResponse:
         request_first_line = self.request.split('\r\n')[0].split(' ')
 
         if request_first_line[0] not in [GET, HEAD]:
-            return self.response_with_error(405)
+            return 405
 
         self.request_path = parse.urlparse(parse.unquote(request_first_line[1])).path
 
@@ -75,7 +75,9 @@ class HttpResponse:
 
     def create_response(self):
         method = self.get_request_path()
-
+        if method == 405:
+            return self.response_with_error(405)
+        
         if self.request_path.find('../') != -1:
             return self.response_with_error(404)
 
