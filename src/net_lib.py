@@ -4,14 +4,18 @@ from src.response import HttpResponse
 max_request_len = 64 * 1024
 
 
-def handler_client(listen_socket, document_root):
+def handler_client(listen_socket, document_root, lock):
     while True:
         client_socket, client_address = listen_socket.accept()
 
         try:
             request = read_from_socket(client_socket)
             response = HttpResponse(request, document_root).create_response()
-            client_socket.sendall(response)
+            lock.acquire()
+            try:
+                client_socket.sendall(response)
+            finally:
+                lock.release()
             client_socket.close()
         except (ConnectionError, BrokenPipeError):
             print('Socket error')

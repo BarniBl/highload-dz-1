@@ -35,7 +35,7 @@ if __name__ == '__main__':
     lock = Lock()
     for i in range(int(cfg_data['threads_limit'])):
         new_thread = threading.Thread(target=net_lib.handler_client,
-                                      args=[listen_socket, (cfg_data['static_root'], lock)],
+                                      args=[listen_socket, cfg_data['static_root'], lock],
                                       daemon=True)
         thread_pool.append(new_thread)
         new_thread.start()
