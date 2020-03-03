@@ -1,5 +1,6 @@
 import threading
 from src import net_lib
+from multiprocessing import Lock
 
 CONFIG_PATH = './src/httpd.conf'
 HOST = '0.0.0.0'
@@ -31,9 +32,10 @@ if __name__ == '__main__':
     print('Listening on {}'.format(listen_socket.getsockname()))
 
     thread_pool = []
-
+    lock = Lock()
     for i in range(int(cfg_data['threads_limit'])):
-        new_thread = threading.Thread(target=net_lib.handler_client, args=[listen_socket, cfg_data['static_root']],
+        new_thread = threading.Thread(target=net_lib.handler_client,
+                                      args=[listen_socket, (cfg_data['static_root'], lock)],
                                       daemon=True)
         thread_pool.append(new_thread)
         new_thread.start()
