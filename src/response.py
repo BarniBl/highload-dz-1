@@ -77,7 +77,7 @@ class HttpResponse:
         method = self.get_request_path()
         if method == 405:
             return self.response_with_error(405)
-        
+
         if self.request_path.find('../') != -1:
             return self.response_with_error(404)
 

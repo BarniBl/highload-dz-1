@@ -3,7 +3,7 @@ from src import net_lib
 
 CONFIG_PATH = './src/httpd.conf'
 HOST = '0.0.0.0'
-PORT = 80
+PORT = 8000
 
 
 def read_cfg_file():
